@@ -30,12 +30,36 @@ const Task: NextPage = () => {
       setEditTask(itemToEdit.task);
     }
   };
-  const editObject = () => {
+  const onEdit = () => {
     const updatedData = tasks.map((item) =>
       item.id === taskId ? { ...item, task: editTask } : item
     );
     setTasks(updatedData);
   };
+
+  const handleDelete = (id: number) => {
+    const updatedData = tasks.filter((item) => item.id !== id);
+    setTasks(updatedData);
+  };
+
+  const handleStatus = (id: number, status: string) => {
+    let updateStatus = "";
+
+    if (status === "Todo") {
+      updateStatus = "In Progress";
+    } else if (status === "In Progress") {
+      updateStatus = "Complete";
+    } else {
+      updateStatus = "Completed";
+    }
+
+    const updatedData = tasks.map((item) =>
+      item.id === id ? { ...item, status: updateStatus } : item
+    );
+
+    setTasks(updatedData);
+  };
+
   const handleCreate = () => {
     const newTask = {
       id: idIncrement,
@@ -48,6 +72,16 @@ const Task: NextPage = () => {
   };
 
   const renderData = tasks.map((item) => {
+    let status = "";
+
+    if (item.status === "Todo") {
+      status = "Progress";
+    } else if (item.status === "In Progress") {
+      status = "Complete";
+    } else {
+      status = "Completed";
+    }
+
     return {
       createdAt: item.createdAt,
       task: item.task,
@@ -63,7 +97,10 @@ const Task: NextPage = () => {
           >
             Edit
           </button>
-          <button>delete</button>
+          <button onClick={() => handleStatus(item.id, item.status)}>
+            {status}
+          </button>
+          <button onClick={() => handleDelete(item.id)}>delete</button>
         </div>
       ),
     };
@@ -160,7 +197,7 @@ const Task: NextPage = () => {
         <Modal.Footer className="justify-end">
           <Button
             onClick={() => {
-              editObject();
+              onEdit();
               setEditModal(false);
             }}
           >
