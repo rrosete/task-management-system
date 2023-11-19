@@ -158,8 +158,8 @@ const Task: NextPage = () => {
   return (
     <Layout>
       <div className="flex-col mb-24 w-full">
-        <div className="flex flex-row justify-between mb-10">
-          <div className="flex flex-row gap-5 w-2/4 items-center">
+        <div className="flex flex-col lg:flex-row justify-between mb-10">
+          <div className="flex flex-col w-full lg:flex-row lg:gap-5 md:w-2/4 items-center">
             <TextInput
               placeholder="Search..."
               value={searchTerm}
@@ -176,7 +176,7 @@ const Task: NextPage = () => {
               sort by date
             </a>
           </div>
-          <div className="flex flex-row gap-3">
+          <div className="flex flex-col lg:flex-row gap-3">
             <Button
               onClick={() => {
                 setAddModal(true);

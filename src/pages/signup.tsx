@@ -10,7 +10,7 @@ const SignUp: NextPage = () => {
   return (
     <LoginLayout title="Sign Up">
       <form>
-        <div className="px-5 text-center">
+        <div className="px-5 text-center mb-10">
           <div className="flex flex-col gap-2">
             <TextInput
               name="email"

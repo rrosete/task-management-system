@@ -3,7 +3,7 @@ import React, { FC } from "react";
 
 export const Table: FC<ITable> = ({ data, header }) => {
   return (
-    <div className="rounded-t-xl overflow-hidden">
+    <div className="rounded-t-xl overflow-auto">
       <table className="table-auto min-w-full">
         <thead>
           <tr className="bg-teal-600 border text-white">
