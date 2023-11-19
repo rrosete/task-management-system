@@ -44,7 +44,7 @@ const Login: NextPage = () => {
                   Login
                 </Button>
                 <div className="mt-20">
-                  <p className="text-gray-500">Don't have an account?</p>
+                  <p className="text-gray-500">{`Don't have an account?`}</p>
                   <h1 className="text-teal-600 font-black">
                     <Link href="/signup">Sign Up</Link>
                   </h1>

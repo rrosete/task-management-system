@@ -107,6 +107,7 @@ const Task: NextPage = () => {
 
   useEffect(() => {
     handleSortByDate();
+    // eslint-disable-next-line
   }, [sorting]);
 
   const renderData = filteredItems.map((item) => {
