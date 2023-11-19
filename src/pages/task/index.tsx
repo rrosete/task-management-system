@@ -25,6 +25,7 @@ const Task: NextPage = () => {
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [taskId, setTaskId] = useState<number | null>(null);
+  const [sorting, setSortning] = useState<boolean>(false);
 
   const [filteredItems, setFilteredItems] = useState<IData[]>([]);
 
@@ -92,6 +93,22 @@ const Task: NextPage = () => {
     setIdIncrement(idIncrement + 1);
   };
 
+  const handleSortByDate = () => {
+    const sorted = [...tasks].sort((a, b) => {
+      const dateA = new Date(a.createdAt);
+      const dateB = new Date(b.createdAt);
+
+      return sorting
+        ? dateA.getTime() - dateB.getTime() // Ascending order
+        : dateB.getTime() - dateA.getTime(); // Descending order
+    });
+    setFilteredItems(sorted);
+  };
+
+  useEffect(() => {
+    handleSortByDate();
+  }, [sorting]);
+
   const renderData = filteredItems.map((item) => {
     let status = "";
 
@@ -111,6 +128,7 @@ const Task: NextPage = () => {
       actions: (
         <div className="flex flex-row gap-2">
           <button
+            className="underline hover:text-teal-600"
             onClick={() => {
               setEditModal(true);
               handleEdit(item.id);
@@ -119,10 +137,19 @@ const Task: NextPage = () => {
           >
             Edit
           </button>
-          <button onClick={() => handleStatus(item.id, item.status)}>
+          <button
+            className="underline hover:text-teal-600 disabled:opacity-40 disabled:hover:text-gray-400"
+            onClick={() => handleStatus(item.id, item.status)}
+            disabled={status === "Completed" ? true : false}
+          >
             {status}
           </button>
-          <button onClick={() => handleDelete(item.id)}>delete</button>
+          <button
+            className="underline hover:text-teal-600"
+            onClick={() => handleDelete(item.id)}
+          >
+            delete
+          </button>
         </div>
       ),
     };
@@ -132,7 +159,7 @@ const Task: NextPage = () => {
     <Layout>
       <div className="flex-col mb-24 w-full">
         <div className="flex flex-row justify-between mb-10">
-          <div className="flex flex-row gap-1 w-2/4">
+          <div className="flex flex-row gap-5 w-2/4 items-center">
             <TextInput
               placeholder="Search..."
               value={searchTerm}
@@ -140,9 +167,14 @@ const Task: NextPage = () => {
               name="search"
               className="w-1/2"
             />
-            <div className="">
-              <Button onClick={() => {}}>sort</Button>
-            </div>
+            <a
+              className="cursor-pointer underline"
+              onClick={() => {
+                setSortning(!sorting);
+              }}
+            >
+              sort by date
+            </a>
           </div>
           <div className="flex flex-row gap-3">
             <Button
