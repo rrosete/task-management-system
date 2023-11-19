@@ -1,5 +1,5 @@
 export interface IData {
-  id?: number;
+  id: number;
   task: string;
   createdAt?: string | number;
   status: string;

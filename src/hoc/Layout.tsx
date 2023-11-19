@@ -7,7 +7,7 @@ const Layout: FC<ILayout> = ({ children }) => {
     <>
       <Navbar />
       <div className="h-full m-auto p-5">
-        <div className="flex mt-5 p-5 xl:mx-32 xl:mt-16 xl:py-20 xl:px-32 bg-white min-h-[600px] shadow-md">
+        <div className="flex p-5 bg-white min-h-[600px] shadow-md">
           {children}
         </div>
       </div>

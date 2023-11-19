@@ -23,7 +23,9 @@ export const Table: FC<ITable> = ({ data, header }) => {
               <td className="px-6 py-4 whitespace-nowrap">{item.createdAt}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.task}</td>
               <td className="px-6 py-4 whitespace-nowrap">{item.status}</td>
-              <td className="px-6 py-4 whitespace-nowrap ">{item.actions}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-right">
+                {item.actions}
+              </td>
             </tr>
           ))}
         </tbody>

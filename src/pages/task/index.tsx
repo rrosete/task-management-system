@@ -1,9 +1,11 @@
 import Layout from "@/hoc/Layout";
 import { NextPage } from "next";
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import moment from "moment";
 import { Button, Modal, TextInput } from "flowbite-react";
 import { Table } from "@/components/table/table";
+import { IData } from "@/interface/pages/task";
+import { MdOutlineAdd } from "react-icons/md";
 
 const Task: NextPage = () => {
   const header = ["Date", "Task", "Status", "Actions"];
@@ -23,6 +25,25 @@ const Task: NextPage = () => {
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [taskId, setTaskId] = useState<number | null>(null);
+
+  const [filteredItems, setFilteredItems] = useState<IData[]>([]);
+
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  useEffect(() => {
+    const results = tasks.filter((item) =>
+      Object.values(item).some(
+        (value) =>
+          typeof value === "string" &&
+          value.toLowerCase().includes(searchTerm.toLowerCase())
+      )
+    );
+    setFilteredItems(results);
+  }, [searchTerm, tasks]);
+
+  const handleSearch = (event: ChangeEvent<HTMLInputElement>) => {
+    setSearchTerm(event.target.value);
+  };
 
   const handleEdit = (id: number) => {
     const itemToEdit = tasks.find((item) => item.id === id);
@@ -71,7 +92,7 @@ const Task: NextPage = () => {
     setIdIncrement(idIncrement + 1);
   };
 
-  const renderData = tasks.map((item) => {
+  const renderData = filteredItems.map((item) => {
     let status = "";
 
     if (item.status === "Todo") {
@@ -83,6 +104,7 @@ const Task: NextPage = () => {
     }
 
     return {
+      id: item.id,
       createdAt: item.createdAt,
       task: item.task,
       status: item.status,
@@ -109,26 +131,27 @@ const Task: NextPage = () => {
   return (
     <Layout>
       <div className="flex-col mb-24 w-full">
-        <div className="flex flex-row justify-between mb-16">
-          <div className="flex flex-row gap-10">
+        <div className="flex flex-row justify-between mb-10">
+          <div className="flex flex-row gap-1 w-2/4">
             <TextInput
               placeholder="Search..."
-              value=""
-              onChange={(e) => {}}
+              value={searchTerm}
+              onChange={handleSearch}
               name="search"
+              className="w-1/2"
             />
-            <div className="w-36">
+            <div className="">
               <Button onClick={() => {}}>sort</Button>
             </div>
           </div>
-          <div className="w-36">
+          <div className="flex flex-row gap-3">
             <Button
               onClick={() => {
                 setAddModal(true);
                 setAddTask("");
               }}
             >
-              Add
+              <MdOutlineAdd /> Add Task
             </Button>
           </div>
         </div>
